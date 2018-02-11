@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>PHP</title>
+	<meta charset="utf-8">
+</head>
+<body>
+	<script type="text/javascript">
+
+window.onload = function() {
+ 
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+					
+	if (this.status == 200){
+		document.getElementsByClassName("HelloWorld")[0].innerHTML = this.responseText; // место для хранения 																					информации
+			}
+		};	
+	xmlhttp.open("GET","refresh.php");
+	xmlhttp.send();
+};
+
+function SearchFromPhp() {
+var emailINPUT = document.getElementsByClassName("search")[0].value;
+
+if (emailINPUT == "") {
+document.getElementsByClassName("HelloWorld")[0].innerHTML = "Введите Email для поиска";
+return;
+}
+else {
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+if (this.readyState == 4 && this.status == 200) {
+document.getElementsByClassName("HelloWorld")[0].innerHTML = this.responseText;
+}
+}
+xmlhttp.open("GET","search.php?email="+emailINPUT);
+xmlhttp.send();	
+}
+document.getElementsByClassName("search")[0].value="";
+}
+
+
+function SendToPhp() {
+
+var id = document.getElementsByClassName("id")[0].value;
+var email = document.getElementsByClassName("email")[0].value;
+var Phone = document.getElementsByClassName("phone")[0].value;
+var Name = document.getElementsByClassName("name")[0].value;
+
+document.getElementsByClassName("IDH")[0].style.color='black';
+document.getElementsByClassName("emailH")[0].style.color='black';
+document.getElementsByClassName("PhoneH")[0].style.color='black';
+document.getElementsByClassName("NameH")[0].style.color='black';
+
+if (id == "") {
+// alert ("заполните ID");
+document.getElementsByClassName("IDH")[0].style.color='red';
+}
+if (email == "") {
+// alert ("заполните email");
+document.getElementsByClassName("emailH")[0].style.color='red';
+}
+if (Phone == "") {
+// alert ("заполните Phone");
+document.getElementsByClassName("PhoneH")[0].style.color='red';
+}
+if (Name == "") {
+// alert ("заполните Name");
+document.getElementsByClassName("NameH")[0].style.color='red';
+}
+if (id==''||email==''||Phone==''||Name==''){
+return;
+}
+
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+				
+	if (this.readyState == 4 && this.status == 200) {
+	document.getElementsByClassName("HelloWorld")[0].innerHTML = this.responseText;
+		}
+	}
+
+xmlhttp.open("GET","action.php?email="+email+"&phone="+Phone+"&name="+Name+"&id="+id);
+xmlhttp.send();
+
+document.getElementsByClassName("id")[0].value="";
+document.getElementsByClassName("email")[0].value="";
+document.getElementsByClassName("phone")[0].value="";
+document.getElementsByClassName("name")[0].value="";
+}
+
+
+function DeleteFromPhp() {
+emailINPUT = document.getElementsByClassName("email2")[0].value
+
+if (emailINPUT == "") {
+document.getElementsByClassName("HelloWorld")[0].innerHTML = "Введите Email, который хотите удалить";
+return;
+}
+else {
+
+xmlhttp = new XMLHttpRequest();
+xmlhttp.onreadystatechange = function() {
+				
+	if (this.status == 200) {
+		document.getElementsByClassName("HelloWorld")[0].innerHTML = this.responseText;
+					}
+			}
+xmlhttp.open("GET","delete.php?email="+emailINPUT);
+xmlhttp.send();
+}
+document.getElementsByClassName("email2")[0].value="";
+}
+
+</script>
+
+<h3 class="emailH">Email</h3>
+<input class="email" type="email" name="email">
+<h3 class="PhoneH">Phone</h3>
+<input class="phone" type="phone" name="phone">
+<h3 class="NameH">Name</h3>
+<input class="name" type="name" name="name">
+<h3 class="IDH">ID</h3>
+<input class="id" type="id" name="id">
+<br>
+<!-- кнопка добавления -->
+<button onclick="SendToPhp()">Добавить</button>
+<br>
+<h3>Delete by email</h3>
+<input class="email2" type="email" name="email2">
+<br>
+<button onclick="DeleteFromPhp()">Удалить</button>
+<h3>Search</h3>
+<input class="search" type="search" name="search">
+<br>
+<button onclick="SearchFromPhp()">Найти</button>
+<div class="HelloWorld"></div>
+</body>
+</html>
